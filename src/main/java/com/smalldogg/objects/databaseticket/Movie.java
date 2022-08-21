@@ -3,6 +3,14 @@ package com.smalldogg.objects.databaseticket;
 import java.time.Duration;
 import java.util.List;
 
+/**
+ * 이 클래스는 캡슐화를 잘 지킨 것 처럼 보여지지만, 데이터 중심의 설계로 인해, 퍼블릭 인터페이스 만으로 어떠한 정보를 가지고 있는지
+ * 노골적으로 나타나고 있다. 뿐만 아니라, 이러한 캡슐화를 위반하는 과도한 접근자와 수정자를 가지고 있다.
+ * 앨런 홀럽은 이처럼 접근자와 수정자에 과도하게 의존하는 설계 방식을 추측에 의한 설계 전략이라고 부른다.
+ * 객체가 다양한 상황에 사용될 수 있을 것이라는 막연한 추측을 기반으로 설계를 진행했다는 것이다.
+ *
+ * 퍼블릭 인터페이스에 내부 구현이 노출 -> 캡슐화의 원칙을 위반 및 변경에 취약 -> 추측에 의한 설계 전략
+ */
 public class Movie {
     private String title;
     private Duration runningTime;
