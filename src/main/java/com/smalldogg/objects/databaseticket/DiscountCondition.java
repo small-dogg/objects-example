@@ -16,6 +16,26 @@ public class DiscountCondition {
         return type;
     }
 
+    //기간 조건 할인타입
+    public boolean isDiscountable(DayOfWeek dayOfWeek, LocalTime time) {
+        if (this.type != DiscountConditionType.PERIOD) {
+            throw new IllegalArgumentException();
+        }
+
+        return this.dayOfWeek.equals(dayOfWeek) &&
+                this.startTime.compareTo(time) <= 0 &&
+                this.endTime.compareTo(time) >= 0;
+    }
+
+    //순번 조건 할인타입
+    public boolean isDiscountable(int sequence) {
+        if (this.type != DiscountConditionType.SEQUENCE) {
+            throw new IllegalArgumentException();
+        }
+
+        return this.sequence == sequence;
+    }
+
     public void setType(DiscountConditionType type) {
         this.type = type;
     }
@@ -51,4 +71,6 @@ public class DiscountCondition {
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
+
+    //캡슐화
 }

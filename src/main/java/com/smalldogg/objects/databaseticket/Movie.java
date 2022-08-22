@@ -1,6 +1,7 @@
 package com.smalldogg.objects.databaseticket;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * 노골적으로 나타나고 있다. 뿐만 아니라, 이러한 캡슐화를 위반하는 과도한 접근자와 수정자를 가지고 있다.
  * 앨런 홀럽은 이처럼 접근자와 수정자에 과도하게 의존하는 설계 방식을 추측에 의한 설계 전략이라고 부른다.
  * 객체가 다양한 상황에 사용될 수 있을 것이라는 막연한 추측을 기반으로 설계를 진행했다는 것이다.
- *
+ * <p>
  * 퍼블릭 인터페이스에 내부 구현이 노출 -> 캡슐화의 원칙을 위반 및 변경에 취약 -> 추측에 의한 설계 전략
  */
 public class Movie {
@@ -25,6 +26,45 @@ public class Movie {
 
     public MovieType getMovieType() {
         return movieType;
+    }
+
+    public Money calculateAmountDiscountedFee() {
+        if (this.movieType != MovieType.AMOUNT_DISCOUNT) {
+            throw new IllegalArgumentException();
+        }
+
+        return this.fee.minus(this.discountAmount);
+    }
+
+    public Money calculatePercentDiscountedFee() {
+        if (this.movieType != MovieType.PERCENT_DISCOUNT) {
+            throw new IllegalArgumentException();
+        }
+
+        return this.fee.minus(this.fee.times(this.discountPercent));
+    }
+
+    public Money calculateNoneDiscountedFee() {
+        if (this.movieType != MovieType.NONE_DISCOUNT) {
+            throw new IllegalArgumentException();
+        }
+
+        return this.fee;
+    }
+
+    public boolean isDiscountable(LocalDateTime whenScreened, int sequence) {
+        for (DiscountCondition condition : discountConditions) {
+            if (condition.getType() == DiscountConditionType.PERIOD) {
+                if (condition.isDiscountable(whenScreened.getDayOfWeek(), whenScreened.toLocalTime())) {
+                    return true;
+                }
+            } else {
+                if (condition.isDiscountable(sequence)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void setMovieType(MovieType movieType) {
