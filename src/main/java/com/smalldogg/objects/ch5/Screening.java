@@ -16,4 +16,12 @@ public class Screening {
         //movie.calculateMovieFee(this)를 통해, 느슨한 결합과 캡슐화를 달성할 수 있다.
         return movie.calculateMovieFee(this).times(audienceCount);
     }
+
+    public LocalDateTime getWhenScreened() {
+        return whenScreened;
+    }
+
+    public int getSequence() {
+        return sequence;
+    }
 }
