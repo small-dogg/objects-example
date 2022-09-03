@@ -34,4 +34,8 @@ public abstract class Movie {
     protected Money getFee() {
         return fee;
     }
+
+    public List<DiscountCondition> getDiscountConditions() {
+        return discountConditions;
+    }
 }

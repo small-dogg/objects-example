@@ -12,7 +12,7 @@ public class Screening {
         return new Reservation(customer, this, calculateFee(audienceCount), audienceCount);
     }
 
-    private Movie calculateFee(int audienceCount) {
+    private Money calculateFee(int audienceCount) {
         //movie.calculateMovieFee(this)를 통해, 느슨한 결합과 캡슐화를 달성할 수 있다.
         return movie.calculateMovieFee(this).times(audienceCount);
     }
@@ -23,5 +23,9 @@ public class Screening {
 
     public int getSequence() {
         return sequence;
+    }
+
+    public Movie getMovie() {
+        return movie;
     }
 }
